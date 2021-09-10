@@ -8,8 +8,10 @@ public class Player : MonoBehaviour
 {
 	[SerializeField] int _maxHealth = 3;
 	[SerializeField] TextMeshProUGUI treasureUI;
-	[SerializeField] MeshRenderer body;
-	[SerializeField] MeshRenderer turret;
+	[SerializeField] MeshRenderer _body;
+	[SerializeField] MeshRenderer _turret;
+	[SerializeField] GameObject _projectile;
+	[SerializeField] Transform _projectileSpawnLoc;
 	int _currentHealth;
 	int _treasureCount;
 	bool _isInvincible = false;
@@ -19,12 +21,21 @@ public class Player : MonoBehaviour
 	private void Awake()
 	{
 		_tankController = GetComponent<TankController>();
+		_projectileSpawnLoc = GetComponent<Transform>();
 	}
 
 	void Start()
     {
 		_currentHealth = _maxHealth;
     }
+
+	private void Update()
+	{
+		if (Input.GetKeyDown("space"))
+		{
+			Shoot();
+		}
+	}
 
 	public void IncreaseHealth(int amount)
 	{
@@ -65,8 +76,8 @@ public class Player : MonoBehaviour
 
 	public void MaterialSwap(Material mat)
 	{
-		body.material = mat;
-		turret.material = mat;
+		_body.material = mat;
+		_turret.material = mat;
 	}
 
 	public void Kill()
@@ -74,5 +85,14 @@ public class Player : MonoBehaviour
 		gameObject.SetActive(false);
 		//play particles
 		//play sounds
+	}
+
+	public void Shoot()
+	{
+		if(_projectile != null)
+		{
+			Vector3 _projectileOffset = transform.forward * 2 + transform.up;
+			_projectile = Instantiate(_projectile, _projectileOffset, transform.rotation);
+		}
 	}
 }

@@ -21,7 +21,7 @@ public class TankController : MonoBehaviour
         _rb = GetComponent<Rigidbody>();
     }
 
-    private void FixedUpdate()
+	private void FixedUpdate()
     {
         MoveTank();
         TurnTank();
