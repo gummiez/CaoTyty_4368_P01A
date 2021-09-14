@@ -91,8 +91,8 @@ public class Player : MonoBehaviour
 	{
 		if(_projectile != null)
 		{
-			Vector3 _projectileOffset = transform.forward * 2 + transform.up;
-			_projectile = Instantiate(_projectile, _projectileOffset, transform.rotation);
+			Vector3 _projectileOffset = transform.forward * 2;
+			_projectile = Instantiate(_projectile, transform.position + _projectileOffset, transform.rotation);
 		}
 	}
 }
