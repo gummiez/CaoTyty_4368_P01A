@@ -4,11 +4,8 @@ using UnityEngine.AI;
 public class Boss : Enemy
 {
 	[SerializeField] NavMeshAgent _agent;
-
 	[SerializeField] Transform _player;
-
 	[SerializeField] LayerMask whatIsGround, whatIsPlayer;
-
 	[SerializeField] float _health;
 
 	[SerializeField] Vector3 _walkPoint;
