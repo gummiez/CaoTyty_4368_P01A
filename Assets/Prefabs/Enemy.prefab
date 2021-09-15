@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3636579812742077998}
   - component: {fileID: 3636579812742077999}
   - component: {fileID: 3636579812742077995}
-  - component: {fileID: 3636579812742077994}
+  - component: {fileID: -3618017371877113536}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -111,7 +111,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &3636579812742077994
+--- !u!114 &-3618017371877113536
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -123,7 +123,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9e2b60270813ea44a5009f7607c7944, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _maxHealth: 3
   _damageAmount: 1
-  _impactParticles: {fileID: 7040873298391096140, guid: f0d2a635ec02b4f4e80bd37ae46d9c10,
-    type: 3}
-  _impactSound: {fileID: 8300000, guid: 5ee01a6fb69653e49a64880defd71c2f, type: 3}
+  _impactParticles: {fileID: 0}
+  _impactSound: {fileID: 0}

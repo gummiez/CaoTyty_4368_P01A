@@ -6,7 +6,7 @@ public class Boss : Enemy
 	[SerializeField] NavMeshAgent _agent;
 	[SerializeField] Transform _player;
 	[SerializeField] LayerMask whatIsGround, whatIsPlayer;
-	[SerializeField] float _health;
+	[SerializeField] float _bossHealth = 10f;
 
 	[SerializeField] Vector3 _walkPoint;
 	bool _walkPointSet;
@@ -15,6 +15,7 @@ public class Boss : Enemy
 	[SerializeField] float _timeBetweenAttacks;
 	bool _alreadyAttacked;
 	[SerializeField] GameObject _projectile;
+	[SerializeField] GameObject _projectileLarge;
 
 	[SerializeField] float _sightRange, _attackRange;
 	[SerializeField] bool _playerInSightRange, _playerInAttackRange;
@@ -23,6 +24,7 @@ public class Boss : Enemy
 	{
 		_player = GameObject.Find("Tank").transform;
 		_agent = GetComponent<NavMeshAgent>();
+		_maxHealth = _bossHealth;
 	}
 
 	private void Update()
@@ -72,10 +74,22 @@ public class Boss : Enemy
 
 		transform.LookAt(_player);
 
-		if (!_alreadyAttacked)
+		int randAttack = Random.Range(0, 4);
+
+		if (!_alreadyAttacked && randAttack != 0)
 		{
-			Rigidbody rb = Instantiate(_projectile, transform.position, Quaternion.identity).GetComponent<Rigidbody>();
-			rb.AddForce(transform.forward * 32f, ForceMode.Impulse);
+			Rigidbody rb = Instantiate(_projectile, transform.position + transform.forward *2, Quaternion.identity).GetComponent<Rigidbody>();
+			rb.AddForce(transform.forward * 24f, ForceMode.Impulse);
+			//rb.AddForce(transform.up * 8f, ForceMode.Impulse);
+
+			_alreadyAttacked = true;
+			Invoke(nameof(ResetAttack), _timeBetweenAttacks);
+		}
+		else if(!_alreadyAttacked && randAttack == 0)
+		{
+			print("charge");
+			Rigidbody rb = Instantiate(_projectileLarge, transform.position + transform.forward * 2, Quaternion.identity).GetComponent<Rigidbody>();
+			rb.AddForce(transform.forward * 4f, ForceMode.Impulse);
 			rb.AddForce(transform.up * 8f, ForceMode.Impulse);
 
 			_alreadyAttacked = true;
@@ -87,16 +101,7 @@ public class Boss : Enemy
 		_alreadyAttacked = false;
 	}
 
-	public void TakeDamage(int damage)
-	{
-		_health -= damage;
 
-		if (_health <= 0) Invoke(nameof(DestroyEnemy), 0.5f);
-	}
-	private void DestroyEnemy()
-	{
-		Destroy(gameObject);
-	}
 
 	private void OnDrawGizmosSelected()
 	{
