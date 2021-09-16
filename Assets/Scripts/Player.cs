@@ -4,7 +4,7 @@ using UnityEngine;
 using TMPro;
 
 [RequireComponent(typeof(TankController))]
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour, Health
 {
 	[SerializeField] int _maxHealth = 3;
 	[SerializeField] TextMeshProUGUI treasureUI;
@@ -14,6 +14,7 @@ public class Player : MonoBehaviour
 	[SerializeField] Transform _projectileSpawnLoc;
 	int _currentHealth;
 	int _treasureCount;
+	bool _isShootable = true;
 	bool _isInvincible = false;
 
 	TankController _tankController;
@@ -28,6 +29,21 @@ public class Player : MonoBehaviour
     {
 		_currentHealth = _maxHealth;
     }
+
+	public void TrackHealth(float currentHealth, float maxHealth)
+	{
+		Kill(currentHealth);
+	}
+
+	public void Kill(float currentHealth)
+	{
+		currentHealth = _currentHealth;
+		if (currentHealth <= 0)
+		{
+			gameObject.SetActive(false);
+		}
+	}
+
 
 	private void Update()
 	{
@@ -49,10 +65,7 @@ public class Player : MonoBehaviour
 		{
 			_currentHealth -= amount;
 			Debug.Log("Player's health: " + _currentHealth);
-			if (_currentHealth <= 0)
-			{
-				Kill();
-			}
+			TrackHealth(_currentHealth, _maxHealth);
 		}
 	}
 
@@ -90,9 +103,27 @@ public class Player : MonoBehaviour
 	public void Shoot()
 	{
 		if(_projectile != null)
-		{
-			Vector3 _projectileOffset = transform.forward * 2;
-			_projectile = Instantiate(_projectile, transform.position + _projectileOffset, transform.rotation);
+		{	
+			if (_isShootable == true)
+			{
+				StartCoroutine(timer(.3f));
+				_isShootable = false;
+				Vector3 _projectileOffset = transform.forward * 2;
+				Instantiate(_projectile, transform.position + _projectileOffset, transform.rotation);
+			}
 		}
+	}
+
+	IEnumerator timer(float amount)
+	{
+		float counter = amount;
+
+		while (counter > 0)
+		{
+			yield return new WaitForSeconds(1);
+			counter--;
+			Debug.Log("timer: " + counter);
+		}
+		_isShootable = !_isShootable;
 	}
 }

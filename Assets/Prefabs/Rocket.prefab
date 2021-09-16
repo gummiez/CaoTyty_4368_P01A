@@ -124,9 +124,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _travelSpeed: 15
-  _angleSpeed: 1.5
+  _angleSpeed: 2
   _projectileDuration: 2
-  _impactParticles: {fileID: 0}
-  _impactSound: {fileID: 0}
+  _impactParticles: {fileID: 7040873298391096140, guid: 1bfe5f173b510e74f9d8e2488e6e1bb8,
+    type: 3}
+  _impactSound: {fileID: 8300000, guid: dd14698d717b11c499594a5b616df739, type: 3}
+  _spawnSound: {fileID: 8300000, guid: 0171534043184e14fbcce9e223a8d817, type: 3}
   _projectileDamage: 1
   _target: {fileID: 5786772521555727911, guid: 86deb49aebca9d94bb401e527bdccf6e, type: 3}

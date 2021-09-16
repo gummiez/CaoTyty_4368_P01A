@@ -6,7 +6,7 @@ public class Boss : Enemy
 	[SerializeField] NavMeshAgent _agent;
 	[SerializeField] Transform _player;
 	[SerializeField] LayerMask whatIsGround, whatIsPlayer;
-	[SerializeField] float _bossHealth = 10f;
+	[SerializeField] float _bossHealth = 25f;
 
 	[SerializeField] Vector3 _walkPoint;
 	bool _walkPointSet;
@@ -25,6 +25,7 @@ public class Boss : Enemy
 		_player = GameObject.Find("Tank").transform;
 		_agent = GetComponent<NavMeshAgent>();
 		_maxHealth = _bossHealth;
+		Debug.Log("current enemy health " + _maxHealth);
 	}
 
 	private void Update()

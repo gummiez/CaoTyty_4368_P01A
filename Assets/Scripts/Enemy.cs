@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
-public class Enemy : MonoBehaviour
+public class Enemy : MonoBehaviour, IDamageable, Health
 {
-	[SerializeField] protected float _maxHealth = 5f;
+	[SerializeField] protected float _maxHealth = 1f;
 	[SerializeField] int _damageAmount = 1;
 	[SerializeField] ParticleSystem _impactParticles;
 	[SerializeField] AudioClip _impactSound;
@@ -16,9 +16,27 @@ public class Enemy : MonoBehaviour
     void Awake()
     {
 		_rb = GetComponent<Rigidbody>();
+	}
+
+	private void Start()
+	{
 		_currentHealth = _maxHealth;
-		print(_currentHealth);
-    }
+		Debug.Log("current enemy health 2 " + _maxHealth);
+	}
+
+	public void TrackHealth(float currentHealth, float maxHealth)
+	{
+		Kill(currentHealth);
+	}
+
+	public void Kill(float currentHealth)
+	{
+		currentHealth = _currentHealth;
+		if(currentHealth <= 0)
+		{
+			gameObject.SetActive(false);
+		}
+	}
 
 	private void OnCollisionEnter(Collision other)
 	{
@@ -35,21 +53,11 @@ public class Enemy : MonoBehaviour
 		player.DecreaseHealth(_damageAmount);
 	}
 
-	public void DecreaseHealth(int amount)
+	public void TakeDamage(int amount)
 	{
-			_currentHealth -= amount;
-			Debug.Log("Enemy's health: " + _currentHealth);
-			if (_currentHealth <= 0)
-			{
-				Kill();
-		}
-	}
-
-	public void Kill()
-	{
-		gameObject.SetActive(false);
-		//play particles
-		//play sounds
+		_currentHealth -= amount;
+		Debug.Log("Enemy's health: " + _currentHealth);
+		TrackHealth(_currentHealth, _maxHealth);
 	}
 
 	protected virtual void StartTimer()
@@ -83,7 +91,7 @@ public class Enemy : MonoBehaviour
 		{
 			AudioHelper.PlayClip2D(_impactSound, 1f);
 		}
-		Kill();
+		TakeDamage(1);
 	}
 
 	private void FixedUpdate()

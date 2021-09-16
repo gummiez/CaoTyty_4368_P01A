@@ -9,10 +9,12 @@ public class Projectile : MonoBehaviour
 	[SerializeField] protected float _angleSpeed = 1f;
 	[SerializeField] float _projectileDuration = 2f;
 
-	[SerializeField] ParticleSystem _impactParticles;
-	[SerializeField] AudioClip _impactSound;
+	[SerializeField] ParticleSystem _impactParticles = null;
+	[SerializeField] AudioClip _impactSound = null;
+	[SerializeField] AudioClip _spawnSound = null;
 	[SerializeField] float _projectileDamage = 1f;
 	protected Rigidbody _rb;
+	protected Renderer _r;
 
 	protected float TravelSpeed
 	{
@@ -23,8 +25,11 @@ public class Projectile : MonoBehaviour
 	protected void Awake()
 	{
 		_rb = GetComponent<Rigidbody>();
+		_r = GetComponent<Renderer>();
 		_rb.useGravity = false;
-
+		StartTimer();
+		gameObject.SetActive(true);
+		SpawnFeedback();
 	}
 
 
@@ -43,17 +48,10 @@ public class Projectile : MonoBehaviour
 		Enemy enemy = other.gameObject.GetComponent<Enemy>();
 		if (enemy != null)
 		{
-			enemy.DecreaseHealth((int)_projectileDamage);
+			enemy.TakeDamage((int)_projectileDamage);
 			ImpactFeedback();
-		}
-	}
-
-	private void OnTriggerEnter(Collider other)
-	{
-		Enemy enemy = other.gameObject.GetComponent<Enemy>();
-		if (enemy != null)
-		{
-			gameObject.SetActive(false);
+			_r.enabled = false;
+			StartTimer();
 		}
 	}
 
@@ -67,7 +65,7 @@ public class Projectile : MonoBehaviour
 			counter--;
 			Debug.Log("timer: " + counter);
 		}
-		gameObject.SetActive(false);
+		Destroy(gameObject);
 	}
 
 	protected virtual void StartTimer()
@@ -88,4 +86,13 @@ public class Projectile : MonoBehaviour
 			AudioHelper.PlayClip2D(_impactSound, 1f);
 		}
 	}
+
+	private void SpawnFeedback()
+	{
+		if (_spawnSound != null)
+		{
+			AudioHelper.PlayClip2D(_spawnSound, 1f);
+		}
+	}
+
 }

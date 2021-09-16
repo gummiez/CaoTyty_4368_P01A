@@ -123,7 +123,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6906f78670c471a4783d55095afe0056, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxHealth: 2
+  _maxHealth: 1
   _damageAmount: 1
-  _impactParticles: {fileID: 0}
-  _impactSound: {fileID: 0}
+  _impactParticles: {fileID: 7040873298391096140, guid: f0d2a635ec02b4f4e80bd37ae46d9c10,
+    type: 3}
+  _impactSound: {fileID: 8300000, guid: 5ee01a6fb69653e49a64880defd71c2f, type: 3}

@@ -32,6 +32,7 @@ public class BossFloorAttack : MonoBehaviour
 				_ground.material.color = Color.red;
 			}
 		}
+		_rb.constraints = RigidbodyConstraints.None;
 		_rb.useGravity = true;
 	}
 }
